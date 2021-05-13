@@ -16,6 +16,14 @@
 
 package com.example.appengine.springboot;
 
+import java.io.IOException;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.util.List;
+
 // [START gae_java11_helloworld]
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -31,9 +39,13 @@ public class SpringbootApplication {
   }
 
   @GetMapping("/")
-  public String hello() {
+  public String hello() throws IOException {
+    Path path = Paths.get(URI.create("gs://YOUR_BUCKET/lolcat.csv"));
+    List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+    System.out.println(lines.toString());
     return "Hello world!";
   }
 
 }
 // [END gae_java11_helloworld]
+
